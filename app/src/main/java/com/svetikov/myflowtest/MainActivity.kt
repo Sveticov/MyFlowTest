@@ -49,21 +49,24 @@ fun MyFlowTest(model: MyFlowModel = viewModel()) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(20.dp)) {
 
-            val time = model.time.collectAsState(initial = 10)
-            OutlinedTextField(value =txt, onValueChange ={txt = it})
+            //    val time = model.time.collectAsState(initial = 10)
+            OutlinedTextField(value = txt, onValueChange = { txt = it })
 
-            Button(onClick = {
+                Button(onClick = {
 
-                scope.launch {
-                    model.getTime(txt.toInt()).collect { timeLocal = it }//.filter { it>5 }.collect { it }
-                    Log.d("Time", "Button push scope ${Thread.currentThread().name}")
+                    scope.launch {
+                        model.getTime(txt.toInt())
+                            .collect { timeLocal = it }//.filter { it>5 }.collect { it }
+                        Log.d("Time", "Button push scope ${Thread.currentThread().name}")
+                    }
+
+                    Log.d("Time", "Button push")
+                },
+                    enabled = timeLocal==0
+                ) {
+                    Text(text = "ok")
                 }
-
-                Log.d("Time", "Button push")
-            }) {
-                Text(text = "ok")
-            }
-            Text(text = "${time.value}")
+            //   Text(text = "${time.value}")
             Text(text = "$timeLocal")
         }
     }
