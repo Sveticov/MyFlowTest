@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,18 +41,21 @@ fun MyFlowTest(model: MyFlowModel = viewModel()) {
     var timeLocal by remember {
         mutableStateOf(0)
     }
+    var txt by remember {
+        mutableStateOf("")
+    }
 
     val scope = rememberCoroutineScope()
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(20.dp)) {
 
             val time = model.time.collectAsState(initial = 10)
-
+            OutlinedTextField(value =txt, onValueChange ={txt = it})
 
             Button(onClick = {
 
                 scope.launch {
-                    model.getTime(55).collect { timeLocal = it }//.filter { it>5 }.collect { it }
+                    model.getTime(txt.toInt()).collect { timeLocal = it }//.filter { it>5 }.collect { it }
                     Log.d("Time", "Button push scope ${Thread.currentThread().name}")
                 }
 

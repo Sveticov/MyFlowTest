@@ -27,7 +27,7 @@ class MyFlowModel : ViewModel() {
 
 
     @JvmName("getTime1")
-    suspend fun getTime(time:Int): Flow<Int>
+    suspend fun getTime(time:Int=0): Flow<Int>
 // : Flow<Int>
     {
         return flow<Int> {
